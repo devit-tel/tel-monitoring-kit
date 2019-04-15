@@ -1,4 +1,4 @@
-const wrapModulerequire('wrap-module-function')
+const wrapModule = require('wrap-module-function')
 
 module.exports.default = (config) => {
     wrapModule({
