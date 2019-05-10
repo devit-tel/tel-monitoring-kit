@@ -1,23 +1,12 @@
-const wrapModule = require('wrap-module-function')
+const wrapModule = require('./wrapModule')
+const jaegerClient = require('jaeger-client-utility')
+const trackFn = require('./trackFn')
 
-module.exports = (config) => {
-    wrapModule({
-            debug: false
-        }, {
-            'controller': function(exports, named, fullFilePath){
-                return function(){
-                    console.log(`--- controller ${named} involed`)
-                    return exports.apply(this, arguments)
-                }
-            },
-            'domain': function(exports, named, fullFilePath){
-                return function(){
-                    const start = Date.now()
-                    const result = exports.apply(this, arguments)
-                    console.info(`--- ${named} excuted in ${Date.now()-start}ms`)
-                    return result
-                }
-            } 
-        }
-    )
+module.exports = {
+    wrapModule,
+    trackFn,
+    initJaegerClient: jaegerClient.default.init,
+    injectJaeger: jaegerClient.default.inject,
+    startJaegerSpan: jaegerClient.default.startSpan,
+    getJaegerTracer: jaegerClient.default.tracer,
 }

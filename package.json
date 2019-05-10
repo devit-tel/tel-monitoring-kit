@@ -9,6 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jaeger-client-utility": "^1.0.1",
+    "opentracing": "^0.14.3",
     "wrap-module-function": "^1.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.0.0"
   }
 }
