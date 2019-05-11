@@ -24,5 +24,6 @@ module.exports = {
     },
     injectJaeger: jaegerClient.default.inject,
     startJaegerSpan: jaegerClient.default.startSpan,
+    getJaegerParentSpan: jaegerClient.default.getParentSpan,
     getJaegerTracer: jaegerClient.default.tracer,
 }
