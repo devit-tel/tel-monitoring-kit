@@ -1,5 +1,5 @@
 require('dotenv').config()
-const {initJaegerClient, startJaegerSpan, trackFn} = require('../..')
+const {initJaegerClient, startJaegerSpan, trackFn, injectJaeger, FORMAT_TEXT_MAP} = require('../..')
 
 initJaegerClient()
 
@@ -7,7 +7,7 @@ let trackedFunc1 = trackFn({})(
     function kkkkkk() {
         for(let i = 0; i< 5000; i++){console.log('a')}
         console.log('my name is 1')
-        let a = df
+        
     }
 )
 let trackedFunc2 = trackFn({})(
@@ -40,8 +40,21 @@ let trackedFunc = trackFn({logInput: true, logOutput: true})(
 )
 
 try{
-
+    const ctxSpan = startJaegerSpan('Context Span')
+    const carrier = {}
+    const a = injectJaeger(ctxSpan, FORMAT_TEXT_MAP, carrier)
     console.log('result', trackedFunc(1, 4))
+    console.log('injecgt', carrier)
+
+    const childSpan = startJaegerSpan('ChildSpan', {
+        isChild: {
+            format: FORMAT_TEXT_MAP,
+            injectData: carrier
+        }
+    })
+    for(let i = 0; i< 3000; i++){console.log('a')}
+    childSpan.finish()
+    ctxSpan.finish()
 }catch(e){
-    
+    console.error(e)
 }

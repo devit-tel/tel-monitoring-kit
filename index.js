@@ -1,6 +1,7 @@
 const wrapModule = require('./wrapModule')
 const jaegerClient = require('jaeger-client-utility')
 const trackFn = require('./trackFn')
+const { FORMAT_HTTP_HEADERS, FORMAT_TEXT_MAP } = require('opentracing')
 
 module.exports = {
     wrapModule,
@@ -26,4 +27,6 @@ module.exports = {
     startJaegerSpan: jaegerClient.default.startSpan,
     getJaegerParentSpan: jaegerClient.default.getParentSpan,
     getJaegerTracer: jaegerClient.default.tracer,
+    FORMAT_HTTP_HEADERS, 
+    FORMAT_TEXT_MAP,
 }
